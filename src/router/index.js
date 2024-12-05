@@ -104,6 +104,55 @@ const routes = [
       requiresAuth: true,
     },
   },
+
+  {
+    path: '/admin/all-users',
+    name: 'AllUsers',
+    component: () =>
+      import(/* webpackChunkName: "admin-dashboard" */ '../views/admin/AllUsers.vue'),
+    meta: {
+      title: ' All Users - Admin Panel -  iFriendShip - v0.1.0',
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
+
+  {
+    path: '/admin/view-user-details',
+    name: 'ViewUserDetails',
+    component: () =>
+      import(/* webpackChunkName: "admin-dashboard" */ '../views/admin/UserDetails.vue'),
+    meta: {
+      title: ' User Details - Admin Panel -  iFriendShip - v0.1.0',
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
+
+  {
+    path: '/admin/view-form-responses',
+    name: 'ViewFormResponses',
+    component: () =>
+      import(/* webpackChunkName: "admin-dashboard" */ '../views/admin/OthersFormResponse.vue'),
+    meta: {
+      title: ' View Form Response - Admin Panel -  iFriendShip - v0.1.0',
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
+
+  {
+    path: '/admin/edit-form-response',
+    name: 'EditFormResponse',
+    component: () =>
+      import(/* webpackChunkName: "admin-dashboard" */ '../views/admin/EditFormResponse.vue'),
+    meta: {
+      title: ' Edit Form Response - Admin Panel -  iFriendShip - v0.1.0',
+      requiresAuth: true,
+      requiresAdmin: true,
+    },
+  },
+
   {
     path: '/:catchAll(.*)',
     name: 'PageNotFound',
@@ -120,6 +169,7 @@ const router = createRouter({
 // Navigation guard to update document title and manage route access
 router.beforeEach(async (to, from, next) => {
   const isLoggedIn = store.getters['auth/isLoggedIn'];
+  const userType = store.getters['auth/userDetails']?.user_type; 
 
   // Dispatch Vuex action to show loading
   await store.dispatch('ui/setLoading', true);
@@ -138,6 +188,13 @@ router.beforeEach(async (to, from, next) => {
     store.dispatch('ui/setLoading', false); // Stop loading before redirect
     return next({ name: 'LoginForm' }); // Redirect unauthenticated users to login
   }
+
+  // Redirect users without admin privileges from admin-only routes
+  if (to.meta.requiresAdmin && userType !== "2") {
+    store.dispatch('ui/setLoading', false); // Stop loading before redirect
+    return next({ name: 'Dashboard' }); // Redirect to Dashboard or an appropriate fallback
+  }
+
 
   next(); // Proceed to the next route
 });
