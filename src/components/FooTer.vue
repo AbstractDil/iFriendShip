@@ -15,6 +15,7 @@
              </p>
             </template>
              <template v-else>{{ visitorsCount }}</template>
+             <a  href="https://github.com/AbstractDil/iFriendShip/"><i class="bi bi-github"></i></a>
           </p>
           
         </section>
