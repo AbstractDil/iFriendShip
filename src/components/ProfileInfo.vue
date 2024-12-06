@@ -12,81 +12,105 @@
 
         <template v-if="loading">
           <p class="card-text placeholder-glow">
-          <span class="placeholder col-8 placeholder-lg"></span>
-          <span class="placeholder col-8 placeholder-lg"></span>
-          <span class="placeholder col-8 placeholder-lg"></span>
-          <span class="placeholder col-8 placeholder-lg"></span>
+            <span class="placeholder col-8 placeholder-lg"></span>
+            <span class="placeholder col-8 placeholder-lg"></span>
+            <span class="placeholder col-8 placeholder-lg"></span>
+            <span class="placeholder col-8 placeholder-lg"></span>
 
-        </p>
+          </p>
         </template>
         <template v-else>
-        <div class="container">
-          <div class="row">
-            <!-- Profile Image Section -->
-            <div class="col-md-4">
-              <div class="text-center mt-2 mb-3">
-                <img :src="profileImage" alt="Profile Picture" class="rounded-circle profile-image mb-3" />
-                <div>
-                  <input type="file" @change="onImageChange" id="file-upload" name="profile_photo_file"
-                    class="d-none" />
-                  <label for="file-upload" class="btn btn-outline-success" :class="{ disabled: isUploading }">
-                    <span v-if="isUploading">
-                      <span class="spinner-border text-light spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </span> Uploading...</span>
-                    <span v-else><i class="bi bi-cloud-arrow-up-fill"></i> Upload Photo</span>
-                  </label>
+          <div class="container">
+            <div class="row">
+              <!-- Alerrt Section -->
+
+              <div class="col-md-12">
+                <div class="alert border text-muted font-sm pb-0" role="alert">
+                        <ol>
+                          <li>
+                        Updating email and name is not allowed. You can only change your photo.
+                          </li>
+                          <li>Please ensure your photo's dimensions match WhatsApp profile size.</li>
+                          <li>Photo size should not exceed 400 KB.</li>
+                          <li>If you continue to experience issues uploading your photo from your mobile device, please try using a desktop or laptop computer. You may also contact our technical support team for further assistance.</li>
+                        </ol>
+                  </div>
+              </div>
+
+              <!-- Profile Image Section -->
+              <div class="col-md-4">
+                <div class="text-center mt-2 mb-3">
+                  <img :src="profileImage" alt="Profile Picture" class="rounded-circle profile-image mb-3" />
+                  <div>
+                    <input type="file" @change="onImageChange" id="file-upload" name="profile_photo_file"
+                      class="d-none" />
+                    <label for="file-upload" class="btn btn-outline-success" :class="{ disabled: isUploading }">
+                      <span v-if="isUploading">
+                        <span class="spinner-border text-light spinner-border-sm" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </span> Uploading...</span>
+                      <span v-else><i class="bi bi-cloud-arrow-up-fill"></i> Upload Photo</span>
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <!-- Form Section -->
-            <div class="col-md-6">
-              <form @submit.prevent="handleProfileInfoUpdate">
-                <BaseInput label="Fullname" v-model="formData.name" />
-                <!-- Name Validation Messages -->
-                <p v-if="formSubmitted && v$.formData.name.required.$invalid">
-                  <small class="text-danger">Fullname is required</small>
-                </p>
-                <p v-if="formSubmitted && !v$.formData.name.required.$invalid && v$.formData.name.minLength.$invalid">
-                  <small class="text-danger">Minimum length is 3 characters</small>
-                </p>
-                <p v-if="formSubmitted && !v$.formData.name.required.$invalid && v$.formData.name.maxLength.$invalid">
-                  <small class="text-danger">Maximum length is 20 characters</small>
-                </p>
-                <BaseInput label="Email" v-model="formData.email" type="email" />
-                <!-- Email Validation Messages -->
-                <p v-if="formSubmitted && v$.formData.email.required.$invalid">
-                  <small class="text-danger">Email is required</small>
-                </p>
-                <p v-if="formSubmitted && !v$.formData.email.required.$invalid && v$.formData.email.email.$invalid">
-                  <small class="text-danger">Please enter a valid email address</small>
-                </p>
-                <p
-                  v-if="formSubmitted && !v$.formData.email.required.$invalid && !v$.formData.email.email.$invalid && v$.formData.email.minLength.$invalid">
-                  <small class="text-danger">Email must be at least 6 characters long.</small>
-                </p>
-                <p
-                  v-if="formSubmitted && !v$.formData.email.required.$invalid && !v$.formData.email.email.$invalid && v$.formData.email.maxLength.$invalid">
-                  <small class="text-danger">Email cannot exceed 50 characters.</small>
-                </p>
-                <div class="text-start">
-                  <button class="btn btn-success" type="submit" :disabled="loading">
-                    <template v-if="loading">
-                      <div class="spinner-border text-light spinner-border-sm" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                      </div>
-                      Processing...
+              <!-- Form Section -->
+              <div class="col-md-6">
+                <form @submit.prevent="handleProfileInfoUpdate">
+                  <BaseInput label="Fullname" v-model="formData.name" />
+                  <!-- Name Validation Messages -->
+                  <p v-if="formSubmitted && v$.formData.name.required.$invalid">
+                    <small class="text-danger">Fullname is required</small>
+                  </p>
+                  <p v-if="formSubmitted && !v$.formData.name.required.$invalid && v$.formData.name.minLength.$invalid">
+                    <small class="text-danger">Minimum length is 3 characters</small>
+                  </p>
+                  <p v-if="formSubmitted && !v$.formData.name.required.$invalid && v$.formData.name.maxLength.$invalid">
+                    <small class="text-danger">Maximum length is 20 characters</small>
+                  </p>
+                  <BaseInput label="Email" v-model="formData.email" type="email" />
+                  <!-- Email Validation Messages -->
+                  <p v-if="formSubmitted && v$.formData.email.required.$invalid">
+                    <small class="text-danger">Email is required</small>
+                  </p>
+                  <p v-if="formSubmitted && !v$.formData.email.required.$invalid && v$.formData.email.email.$invalid">
+                    <small class="text-danger">Please enter a valid email address</small>
+                  </p>
+                  <p
+                    v-if="formSubmitted && !v$.formData.email.required.$invalid && !v$.formData.email.email.$invalid && v$.formData.email.minLength.$invalid">
+                    <small class="text-danger">Email must be at least 6 characters long.</small>
+                  </p>
+                  <p
+                    v-if="formSubmitted && !v$.formData.email.required.$invalid && !v$.formData.email.email.$invalid && v$.formData.email.maxLength.$invalid">
+                    <small class="text-danger">Email cannot exceed 50 characters.</small>
+                  </p>
+                  <div class="text-start">
+                    <template v-if="isEditable">
+                      <button class="btn btn-success" type="submit" :disabled="loading">
+                        <template v-if="loading">
+                          <div class="spinner-border text-light spinner-border-sm" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                          Processing...
+                        </template>
+                        <template v-else>
+                          <i class="bi bi-check-lg"></i> Save Changes
+                        </template>
+                      </button>
                     </template>
                     <template v-else>
-                      <i class="bi bi-check-lg"></i> Save Changes
+                      <div class="alert border border-danger text-danger font-sm" role="alert">
+                        <strong><i class="bi bi-exclamation-triangle-fill"></i> Please Note: </strong>
+                        Updating email and name is not allowed. You can only change your photo.
+                      </div>
                     </template>
-                  </button>
-                </div>
-              </form>
+
+                  </div>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </template>
+        </template>
       </div>
     </div>
   </div>
@@ -111,6 +135,7 @@ export default {
       formSubmitted: false,
       isUploading: false,
       loading: false,
+      isEditable: true,
       profileImage: '/Images/User-avatar.png', // Updated path
       v$: null, // Placeholder for Vuelidate instance
       token: localStorage.getItem('token'),
@@ -146,7 +171,7 @@ export default {
           this.formData.name = response.data.data.name;
           this.formData.email = response.data.data.email;
           this.profileImage = response.data.data.profile_photo_path;
-          //this.profileImage = response.data.data.profile_photo_path;
+          this.isEditable = response.data.data.isEditable;
         } else {
           console.error('User ID or token is not available');
         }
@@ -176,7 +201,24 @@ export default {
           this.$swal.fire('Success!', 'Profile updated successfully!', 'success');
           console.log('API response:', response.data);
         } catch (error) {
-          this.$swal.fire('Error!', 'Failed to update profile. Please try again later.', 'error');
+          let errorMessage = 'Failed to update profile. Please try again later.';
+
+          // Che if there's a response from the server
+          if (error.response) {
+            // Server responded with a status other than 2xx
+            errorMessage += `\nStatus: ${error.response.status}\nMessage: ${error.response.data?.message || 'Unknown error from server.'}`;
+          } else if (error.request) {
+            // Request was made, but no response received
+            errorMessage += '\nNo response received from the server. Please check your network connection.';
+          } else {
+            // Other errors (e.g., setting up the request)
+            errorMessage += `\nError: ${error.message}`;
+          }
+
+          // Show detailed error in Swal alert
+          this.$swal.fire('Error!', errorMessage, 'error');
+
+
           console.error('API error:', error);
         }
         finally {
@@ -214,10 +256,27 @@ export default {
           // Handle successful upload
           console.log('Image uploaded successfully:', response.data);
         } catch (error) {
-          this.$swal.fire('Error!', 'Failed to upload profile photo. Please try again later.', 'error');
-          // Handle upload errors
+          let errorMessage = 'Failed to upload profile photo. Please try again later.';
+
+          // Check if there's a response from the server
+          if (error.response) {
+            // Server responded with a status other than 2xx
+            errorMessage += `\nStatus: ${error.response.status}\nMessage: ${error.response.data?.message || 'Unknown error from server.'}`;
+          } else if (error.request) {
+            // Request was made, but no response received
+            errorMessage += '\nNo response received from the server. Please check your network connection.';
+          } else {
+            // Other errors (e.g., setting up the request)
+            errorMessage += `\nError: ${error.message}`;
+          }
+
+          // Show detailed error in Swal alert
+          this.$swal.fire('Error!', errorMessage, 'error');
+
+          // Log the full error for debugging
           console.error('Error uploading image:', error);
         }
+
         finally {
           // Set the uploading state to false (hide loader)
           this.isUploading = false;

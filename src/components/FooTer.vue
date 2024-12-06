@@ -5,7 +5,7 @@
       <!-- Footer Starts -->
       <footer class="text-center text-lg-start  text-muted mt-auto">
         <section class="text-center pt-3 pb-0 border-top">
-          © {{ currentYear }} iFriendShip App - Developed by
+          © {{ currentYear }} - Developed by
           <a class="text-success" href="https://nandysagar.in/">Sagar Nandy</a>
 
           <p>Visitors Count: 
